@@ -7,7 +7,11 @@ It is quite simple: it executes a command on `BufWritePost` events.
 It can execute different types of commands.
 
 One common usage I have for this is vim settings file. I autoreload them
-by having `" !::exe [so %]` at the top of the file.
+by having 
+```viml
+" !::exe [so %]
+``` 
+at the top of the file.
 
 You can extend it by defining a function like this:
 ```viml
@@ -18,12 +22,12 @@ endfunction
 Thus, having `!::foo [bar]` would echo `bar`.
 
 Exeline comes with these defaults:
-- !::exe [EXPRESSION]
-- !::coffee [DIR]
-- !::less [DIR]
-- !::sass [DIR]
-- !::jade [DIR]
-- !::md [DIR]
+ * !::exe *[EXPRESSION]*
+ * !::coffee *[DIR]*
+ * !::less *[DIR]*
+ * !::sass *[DIR]*
+ * !::jade *[DIR]*
+ * !::md *[DIR]*
 
 ### Examples
 
