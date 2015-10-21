@@ -45,7 +45,16 @@ func = ->
 func()
 ```
 Outputs file.js
-**NOTE:** `coffee` is actually quite advanced
+
+**NOTE:** `coffee` is actually quite advanced. If there is an error,
+it will highlight the line with `Error`, jump to it, and print the
+error message returned by `coffee`.
+
+You could also emulate this by having:
+
+```coffee
+# !::exe [!coffee -c %]
+```
 
 exeline.vim
 ```viml
