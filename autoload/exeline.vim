@@ -2,13 +2,14 @@
 " Author: romgrk
 " Description: autoexecuting code on save
 " Date: 19 Oct 2015
-" !::exe [so %]
+" !::exe [echo 'NOT AUTOSOURCED']
 
 function! exeline#find () " {{{1
 python << endpython
 import vim, sys, re
 try:
     head = "\n".join(vim.current.buffer[:10])
+    head += "\n".join(vim.current.buffer[-5:-1])
 except Error:
     vim.command('return')
 pattern = re.compile("!::(?P<cmd>[\w]+)\s*((\[(?P<args>([^\]]|(?<=\\\\)\])+)\])|(?P<json>[{].*[}]\!))?", re.X | re.M | re.S)
@@ -94,10 +95,10 @@ function! exeline#less (expression) " {{{1
     endif
 endfunction " 1}}}
 
-function! exeline#compass (expression) " {{{1
+function! exeline#sass (expression) " {{{1
     let dir = resolve(expand('%:p:h') . '/' . a:expression)
     let out = dir . '/' . expand("%:t:r") . '.css'
-    let result = split(system('sass --compass ' . expand('%')), "\\n")
+    let result = split(system('sass ' . expand('%')), "\\n")
     if match(result[0], "^Error") != -1
         "echo result
         let message = result[0]

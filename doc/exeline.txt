@@ -1,0 +1,55 @@
+*exeline.txt*	        For Vim version 7.3	Last change: 2015 October
+
+
+		  EXELINE    by Rom Grk
+
+
+Help on exeline     					*exeline-help*
+
+1. Intro		|exeline-intro|
+2. Autocmd      	|exeline-autocmd|
+2. Extension    	|exeline-extend|
+
+==============================================================================
+1. Intro  					        *exeline-intro*
+
+Exeline looks for the pattern `!::CMD` `[ARGS]` in the first 10 lines and the
+last 5 lines of a file. `CMD` is a word, and `ARGS` is anything (and optionnal). 
+
+==============================================================================
+2. Autocommand events	                                 *exeline-autocmd*
+
+Only one: >
+    augroup Exeline
+        au!
+        au BufWritePost * call exeline#find()
+    augroup END
+<
+You could define new events as follow >
+    au BufWritePre  *.foo call exeline#find()
+<
+You could define your own events as follow >
+    augroup Exeline
+        au!
+        au BufWritePre  *.foo call exeline#find()
+        au BufWritePost *.txt call exeline#find()
+        au BufWritePost *.vim call exeline#find()
+    augroup END
+<
+==============================================================================
+2. Extension	                                          *exeline-extend*
+~
+You can extend exeline by defining a function as follow: >
+    
+    function! exeline#foo (expression)
+        echo a:expression
+    endfunction
+<
+Then having the line >
+    
+    !::foo [bar]
+<
+At the top of a file would echo 'bar'. 
+
+>
+ vim:tw=78:ts=8:ft=help:norl:
