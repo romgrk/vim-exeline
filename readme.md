@@ -29,17 +29,12 @@ Exeline comes with these defaults:
  * !::jade *[DIR]*
  * !::md *[DIR]*
 
-### Examples
+Where *DIR* is a [relative] directory.
+E.g. In *file.md*:
+`!::md [.]` outputs `file.html` in the same dir. 
+As `!::md` does.
 
-exeline.vim
-```viml
-" File: exeline.vim
-" Author: romgrk
-" Description: autoexecuting code on save
-" Date: 19 Oct 2015
-" !::exe [echo bufname('%')]
-```
-Echos buffer name
+### Examples
 
 file.coffee
 ```coffee
@@ -50,4 +45,14 @@ func = ->
 func()
 ```
 Outputs file.js
+**NOTE:** `coffee` is actually quite advanced
 
+exeline.vim
+```viml
+" File: exeline.vim
+" Author: romgrk
+" Description: autoexecuting code on save
+" Date: 19 Oct 2015
+" !::exe [echo bufname('%')]
+```
+Echos buffer name
