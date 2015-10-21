@@ -1,15 +1,29 @@
-<!-- !::exe [echo bufname('%')] -->
+<!-- !::exe -->
 
-# Vim-Exeline
+## vim-exeline
 
 This is an useful feature I had for quite a long time, but never published.
-It is quite simple: it executes a given script on `BufWritePost` events.
-It can execute different types of script depending on the file.
-
-E.g.: inserting `!::exe [EXPR]` executes EXPR each time the file is saved.
+It is quite simple: it executes a command on `BufWritePost` events.
+It can execute different types of commands.
 
 One common usage I have for this is vim settings file. I autoreload them
 by having `" !::exe [so %]` at the top of the file.
+
+You can extend it by defining a function like this:
+```viml
+function! exeline#foo (expression)
+  echo a:expression
+endfunction
+```
+Thus, having `!::foo [bar]` would echo `bar`.
+
+Exeline comes with these defaults:
+- !::exe [EXPRESSION]
+- !::coffee [DIR]
+- !::less [DIR]
+- !::sass [DIR]
+- !::jade [DIR]
+- !::md [DIR]
 
 ### Examples
 

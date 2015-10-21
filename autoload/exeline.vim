@@ -31,14 +31,17 @@ endpython
     if !exists('cmd')
         return | end
     try
-        exe cmd . ' ' . string(args)
-        let result = exeline#pcall('exeline#' . cmd, args)
+        "exe cmd . ' ' . string(args)
+        "let result = s:pcall('exeline#' . cmd, string(args))
+        call call('exeline#' . cmd, [args])
     catch /.*/
+        echohl ErrorMsg
         echo 'Exeline: ' . v:exception
+        echohl None
     endtry
 endfunction " 1}}}
 
-function! exeline#pcall(fx, arguments)
+function! s:pcall(fx, arguments)
     let d={}
     let d.Fx=function(a:fx)
     execute "try"
@@ -51,16 +54,12 @@ function! exeline#pcall(fx, arguments)
 endfunction
 
 function! exeline#exe (expression) " {{{1
-    try
-        "echo a:expression
-        execute a:expression
-    catch /.*/
-    endtry
+    execute a:expression
 endfunction " 1}}}
 
 function! exeline#md (expression) " {{{1
     let htmlfile = resolve(expand('%:p:h') . '/' . a:expression . '/' . expand('%:t:r') . '.html')
-    exe ':silent !markdown % >' . htmlfile
+    silent! exe ':silent !markdown % >' . htmlfile
     echo "Compiled to " . htmlfile
 endfunction " 1}}}
 
