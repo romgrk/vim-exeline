@@ -29,15 +29,13 @@ endfunction
 Exeline comes with the following defaults:
  * exe 
 
-    which executes any vimscript inside brackets
-    E.g.
-      !::exe [let current = bufname('%') | call SomeFunc() | echo current . 'is being written']
+    which executes any vimscript inside brackets.
+    e.g.  !::exe [let current = bufname('%') | call SomeFunc() | echo current . 'is being written']
 
  * coffee, less, sass, jade & md
 
     where *argument* is a directory relative to the file's dir.
-    E.g. 
-      In *file.md*, `"!::md [.]"` (or `"!::md"`) outputs `file.html` in the same dir. 
+    e.g. In *file.md*, `"!::md [.]"` (or `"!::md"`) outputs `file.html` in the same dir. 
 
 ### Examples
 
