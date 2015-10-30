@@ -2,14 +2,14 @@
 
 ## vim-exeline
 
-This is an useful feature I had for quite a long time, but never published.
-It is quite simple: it executes a command on `BufWritePost` events.
-One common usage I have for this is vim settings file. I autoreload them
-by having 
+> *An exeline is like a modeline, but for executing.*
+
+This is an useful feature I had for quite a long time, but never published
+until now.  It is quite simple: it executes a command on `BufWritePost` events.
+One common usage I have for this is autosourcing vimscript file:
 ```viml
 " !::exe [so %]
 ``` 
-at the top of the file.
 
 You can extend it by defining a function like this:
 ```viml
