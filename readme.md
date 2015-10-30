@@ -30,7 +30,8 @@ Exeline comes with the following defaults:
  * exe 
 
     which executes any vimscript inside brackets.
-    e.g.  !::exe [let current = bufname('%') | call SomeFunc() | echo current . 'is being written']
+
+    e.g. `!::exe [let current = bufname('%') | call SomeFunc() | echo current . 'is being written']`
 
  * coffee, less, sass, jade & md
 
