@@ -4,8 +4,6 @@
 
 This is an useful feature I had for quite a long time, but never published.
 It is quite simple: it executes a command on `BufWritePost` events.
-It can execute different types of commands.
-
 One common usage I have for this is vim settings file. I autoreload them
 by having 
 ```viml
@@ -15,24 +13,25 @@ at the top of the file.
 
 You can extend it by defining a function like this:
 ```viml
-function! exeline#foo (expression)
-  echo a:expression
+let exeline = {}
+function! exeline.foo (expression)
+    echo a:expression
 endfunction
 ```
 Thus, having `!::foo [bar]` would echo `bar`.
 
+The following also works, but it has to be placed in a file named *exeline.vim*.
+```viml
+function! exeline#foo (expression)
+    echo a:expression
+endfunction
+```
 Exeline comes with these defaults:
- * !::exe *[EXPRESSION]*
- * !::coffee *[DIR]*
- * !::less *[DIR]*
- * !::sass *[DIR]*
- * !::jade *[DIR]*
- * !::md *[DIR]*
-
-Where *DIR* is a [relative] directory.
-E.g. In *file.md*:
-`!::md [.]` outputs `file.html` in the same dir. 
-As `!::md` does.
+ * exe, which executes any vimscript inside brackets
+ * coffee, less, sass, jade & md
+    where *argument* is a directory relative to the file's dir.
+    E.g. 
+      In *file.md*, `"!::md [.]"` (or `"!::md"`) outputs `file.html` in the same dir. 
 
 ### Examples
 

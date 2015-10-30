@@ -28,12 +28,13 @@ if match:
     else:
         vim.command("let args = ''")
 endpython
-    if !exists('cmd')
-        return | end
+    if !exists('cmd') | return | end
     try
-        "exe cmd . ' ' . string(args)
-        "let result = s:pcall('exeline#' . cmd, string(args))
-        call call('exeline#' . cmd, [args])
+        if exists('*exeline#' . cmd)
+            call call('exeline#' . cmd, [args])
+        elseif exists('g:exeline[l:cmd]')
+            call g:exeline[cmd](args)
+        end
     catch /.*/
         echohl ErrorMsg
         echo 'Exeline: ' . v:exception
