@@ -6,7 +6,8 @@
 
 augroup Exeline
     au!
-    au BufWritePost * call exeline#find()
+    au BufWritePre  * call exeline#onBufWritePre()
+    au BufWritePost * call exeline#onBufWritePost()
 augroup END
 
 

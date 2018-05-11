@@ -4,16 +4,32 @@
 " Date: 19 Oct 2015
 " !::exe [echo 'NOT AUTOSOURCED']
 
+let s:current_buffer = 0
+
+function! exeline#onBufWritePre ()
+    let s:current_buffer = bufnr(0)
+endfu
+
+function! exeline#onBufWritePost ()
+    call exeline#find()
+endfu
+
 function! exeline#find () " {{{1
 python << endpython
 import vim, sys, re
+
+nr = int(vim.eval('s:current_buffer'))
+currentBuffer = vim.buffers[nr]
+
 try:
-    head = "\n".join(vim.current.buffer[:10])
-    head += "\n".join(vim.current.buffer[-5:-1])
+    head = "\n".join(currentBuffer[:10])
+    head += "\n".join(currentBuffer[-5:-1])
 except Error:
     vim.command('return')
+
 pattern = re.compile("!::(?P<cmd>[\w]+)\s*((\[(?P<args>([^\]]|(?<=\\\\)\])+)\])|(?P<json>[{].*[}]\!))?", re.X | re.M | re.S)
 match = pattern.search(head)
+
 if match:
     #print match.group(0)
     cmd, args, json = match.group('cmd', 'args', 'json')
@@ -28,6 +44,7 @@ if match:
     else:
         vim.command("let args = ''")
 endpython
+
     if !exists('cmd') | return | end
     try
         if exists('*exeline#' . cmd)
