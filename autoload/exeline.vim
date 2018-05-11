@@ -4,14 +4,30 @@
 " Date: 19 Oct 2015
 " !::exe [echo 'NOT AUTOSOURCED']
 
+let s:cmd = 0
+let s:args = 0
 let s:current_buffer = 0
 
 function! exeline#onBufWritePre ()
-    let s:current_buffer = bufnr(0)
+    let s:current_buffer = bufnr('%')
 endfu
 
 function! exeline#onBufWritePost ()
     call exeline#find()
+endfu
+
+function! exeline#callback(timer)
+    try
+        if exists('*exeline#' . s:cmd)
+            call call('exeline#' . s:cmd, [s:args])
+        elseif exists('g:exeline[s:cmd]')
+            call g:exeline[s:cmd](s:args)
+        end
+    catch /.*/
+        echohl ErrorMsg
+        echo 'Exeline: ' . v:exception . '; Cmd: ' . s:cmd
+        echohl None
+    endtry
 endfu
 
 function! exeline#find () " {{{1
@@ -33,30 +49,23 @@ match = pattern.search(head)
 if match:
     #print match.group(0)
     cmd, args, json = match.group('cmd', 'args', 'json')
-    vim.command("let cmd = '%s'" % cmd )
+    vim.command("let s:cmd = '%s'" % cmd )
     if args:
         args = args.replace('\'', '\'\'')
-        vim.command("let args = '" + args + "'")
+        vim.command("let s:args = '" + args + "'")
     elif json:
         json = json.replace('\'', '\'\'')
         json = json.replace("}"+"!", "}")
-        vim.command("let args = '%s'" % json)
+        vim.command("let s:args = '%s'" % json)
     else:
-        vim.command("let args = ''")
+        vim.command("let s:args = ''")
+else:
+    # print currentBuffer.name
+    vim.command('let s:cmd = 0')
+    vim.command('return')
 endpython
 
-    if !exists('cmd') | return | end
-    try
-        if exists('*exeline#' . cmd)
-            call call('exeline#' . cmd, [args])
-        elseif exists('g:exeline[l:cmd]')
-            call g:exeline[cmd](args)
-        end
-    catch /.*/
-        echohl ErrorMsg
-        echo 'Exeline: ' . v:exception
-        echohl None
-    endtry
+    let timer = timer_start(10, 'exeline#callback')
 endfunction " 1}}}
 
 function! s:pcall(fx, arguments)
