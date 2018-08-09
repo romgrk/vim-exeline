@@ -7,12 +7,21 @@
 This is an useful feature I had for quite a long time, but never published
 until now.  It is quite simple: it executes a command on `BufWritePost` events.
 One common usage I have for this is autosourcing vimscript files:
+
 ```viml
 " !::exe [so %]
 " this will source the file each time it's written
-``` 
+```
 
-### extending
+### Security ⚠
+
+**This plugin is currently insecure**.
+
+If you download a file by an attacker and it contains an exeline, and you save it, any script can be executed. A
+mitigation is possible but hasn't been implemented due to low usage. See [#1](https://github.com/romgrk/vim-exeline/issues/1)
+for details.
+
+### Extending
 
 You can extend it by defining a function like this:
 ```viml
